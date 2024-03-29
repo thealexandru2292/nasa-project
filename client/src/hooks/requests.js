@@ -1,6 +1,11 @@
+//the client is on port 3000
+//backend is set on 8000
+//we need to specify that when we make a request
+const API_URL = 'http://localhost:8000';
+// Load planets and return as JSON.
 async function httpGetPlanets() {
-  // TODO: Once API is ready.
-  // Load planets and return as JSON.
+  const response = await fetch(`${API_URL}/planets`);
+  return await response.json();
 }
 
 async function httpGetLaunches() {
