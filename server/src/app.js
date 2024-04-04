@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');//used for loggin information from client request
+
 const planetsRouter = require('../routes/planets/planets.router');
 
 const app = express();
@@ -8,6 +10,8 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:3000'
 })); 
+
+app.use(morgan('combined'));// this will output/log all HTPP request information like get/post/put 
 app.use(express.json()); 
 
 //as part of our middleware will use another express built-in middleware to serve all of our public files
