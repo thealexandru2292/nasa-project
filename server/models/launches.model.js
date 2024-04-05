@@ -1,4 +1,4 @@
-const launces = new Map();
+const launches = new Map();
 
 const launch = {
     flightNumber: 100,
@@ -12,8 +12,8 @@ const launch = {
 
 }
 
-launces.set(launch.flightNumber, launch);
+launches.set(launch.flightNumber, launch);
 
 module.exports = {
-    launces,
+    launches,
 }
