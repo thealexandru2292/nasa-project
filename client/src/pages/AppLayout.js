@@ -70,6 +70,8 @@ const AppLayout = props => {
         {anim => (
           <div style={{padding: "20px"}}>
           <Switch>
+            {/* //Our React Router() is responsible what to do with the paths of URL that we put in browser and this is happening in public/index.js file that contains the running of react application
+ */}
             <Route exact path="/">
               <Launch 
                 entered={anim.entered}
