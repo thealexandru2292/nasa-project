@@ -1,10 +1,14 @@
 const express = require('express');
 const {
     httpGetAllLaunces,
+    httpAddNewLaunch,
 } = require('./launches.controller');
 
 const launchesRouter = express.Router();
 
-launchesRouter.get('/launches', httpGetAllLaunces);
+//removed /launches from here and added to app.js app.use('/launches',launcesRouter);
+//and here we will only use / and if we want to be more specific and not repead ourelves we can go further with /incoming or /:id 
+launchesRouter.get('/', httpGetAllLaunces);
+launchesRouter.post('/', httpAddNewLaunch);
 
 module.exports = launchesRouter;
