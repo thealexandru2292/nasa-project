@@ -7,7 +7,7 @@ const launch = {
     mission: 'Kepler Exploration X',
     rocket: 'Explorer IS1',
     launchDate: new Date('December 27, 2030'),
-    destination: 'Kepler-442 b',
+    target: 'Kepler-442 b', // for the planet we are aiming for
     customer: ['ZTM', 'NASA'],
     upcoming: true,
     success: true,
@@ -15,6 +15,10 @@ const launch = {
 }
 
 launches.set(launch.flightNumber, launch);
+
+function existsLaunchWithId(launchId){
+    return launches.has(launchId);//the map has key which is flightNumber
+}
 
 function getAllLaunces(){
     return Array.from(launches.values());
@@ -34,7 +38,14 @@ function addNewLaunch(launch){
         })
     );
 }
+
+function abortLaunchById(launchId){
+
+}
+
 module.exports = {
     getAllLaunces,
     addNewLaunch,
+    existsLaunchWithId,
+    abortLaunchById,
 }
