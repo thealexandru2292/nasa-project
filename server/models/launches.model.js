@@ -40,12 +40,17 @@ function addNewLaunch(launch){
 }
 
 function abortLaunchById(launchId){
-
+    //launches.delete(launchId); //we can delete, but we want this info to be used instead we will abort it
+    const aborted = launches.get(launchId);
+    aborted.upcoming = false;//we will use this record in our historical list on frontend 
+    aborted.success = false;//and will be marked as unseccessful 
+    launches.set(launchId, aborted);
+    return aborted;
 }
 
 module.exports = {
+    existsLaunchWithId,
     getAllLaunces,
     addNewLaunch,
-    existsLaunchWithId,
     abortLaunchById,
 }
