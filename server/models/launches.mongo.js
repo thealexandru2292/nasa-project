@@ -45,3 +45,8 @@ const launchesSchema = new  mongoose.Schema({
     },
     customers: [String],//array of strings
 });
+// the first propery, "Launch" - should always be singular name
+//Connects launchesSchema with the "launches" collection
+module.exports = mongoose.Model('Launch', launchesSchema);//compiling the model
+//we have created an object that will allow use read and create launches using launchesSchema
+//and in launches.model.js we can require this module 

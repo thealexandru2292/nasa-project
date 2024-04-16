@@ -1,14 +1,4 @@
-/* 
-   Because we run the project by pm2 and it splits the requests between the workers or CPU cores, and when creating 
-   a new launch and this is stored in Map that means in the CPU memory, there is not 
-   guarantee that the launch will be found, when openening upcoming page which might be distributed to another core, 
-   as it might use another Cpu core for processing the request which means other memory partiiton
-
-   To make sure we use the same memory partition and storing newly created launches in different cores 
-   we will be using a Database, which will act independetly of our servers, and also if the server crashes 
-   we keep our data safe. 
-
-   */
+//const launches = require('./launches.mongo');//this communicate with Mongo DB via mongoose launchesSchema created in launches.mongo.js
 
 const launches = new Map();
 
