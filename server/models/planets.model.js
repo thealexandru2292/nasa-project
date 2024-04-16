@@ -4,9 +4,6 @@ const { parse } = require('csv-parse');
 
 const planets = require('./planets.mongo');
 
-const habitablePlanets = [];
-
-
 function isHabitablePlanet(planet)
 {
     return planet['koi_disposition'] === 'CONFIRMED'
@@ -28,50 +25,46 @@ function loadPlanetsData(){
     
             if(isHabitablePlanet(data))
             {
-            /*  TODO: replace create with upsert
-                await planets.create({
-                    keplerName: data.kepler_name
-                }); *///this will be saved as planet object on a new document that will be stored in planets collection in mongoDB
-            }
+                savePlanet(data);
+            } 
             
         })
         .on('error', (err) => {
             console.log(err);
             reject(err);
         })
-        .on('end', () => {
-          
-            console.log(`${habitablePlanets.length} habitable planets found`);
+        .on('end', async () => {
+            const countPlanetsFound = (await getAllPlanets()).length;
+            console.log(`${countPlanetsFound} habitable planets found`);
             console.log('done');
         })
         resolve();
     });
 }
 
+async function savePlanet(planet){
+    //updateOne() - is upsert function
+    //when third object argument is set to upsert: true then first argument object is filtering the data that needs to be upserted i.e if the planet with the kpler_name exist we update else create
+    //when third object argument is not set as upsert: true then we only update the record if we find, else do nothing
+    try {
+        await planets.updateOne(
+            {
+                keplerName: planet.kepler_name
+            },
+                //we create or update with secod argument object
+            {
+                keplerName: planet.kepler_name
+            },
+            {
+                upsert: true,
+            });
+    } catch (err) {
+        console.log(`Could not save planet ${err}`);
+    }
+}
+
 async function getAllPlanets(){
-    return await planets.find({
-       //if we pass an empty object all documents will be returned
-       //if we pass keplerName: 'Kepler-62 f', only planets matchign this name will be returned
-    }//,
-    //{
-        /* our find() method takes an second argument also an object which is an projection, 
-           the list of fields that you would like to include in the list
-        */
-      // 'keplerName': 1, //this will show the kepler name field, if 0 mongo will exclude this 
-                        //or we can just use instead of this object, a list of fields separated by space as a string 'keplerName antotherField'
-                        //and if we would like to exlcude keplerName and only add anotherField we add - simbol in front of the field we want to exclude
-                        // '-keplerName antotherField' 
-
-                        // find more about find() here : https://mongoosejs.com/docs/api/model.html#Model.find()
-                       // User.find({ age: { $gte: 21, $lte: 65 } });
-                       //$gte - greater than or equal to
-                       //$lte - less than or equal to
-                       
-                       // executes, name LIKE john and only selecting the "name" and "friends" fields
-                       //await MyModel.find({ name: /john/i }, 'name friends').exec();
-
-    //}
-    );
+    return await planets.find({});
 }
 
 module.exports = {
